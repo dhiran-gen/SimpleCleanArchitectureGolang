@@ -10,25 +10,45 @@ import (
 )
 
 type HttpH struct {
-  Srv service.Fservice
+	Srv service.Fservice
 }
 
-func (h HttpH) GetById(wr http.ResponseWriter, r *http.Request){
-   //mux.NewRouter()
+func (h HttpH) GetById(wr http.ResponseWriter, r *http.Request) {
+	//mux.NewRouter()
 
-   Param := mux.Vars(r) 
+	Param := mux.Vars(r)
 
-   v := Param["id"]
+	v := Param["id"]
 
-   id,_ := strconv.Atoi(v)
+	id, _ := strconv.Atoi(v)
 
-	res,err := h.Srv.GetById(id)
+	res, err := h.Srv.GetById(id)
 
 	if err != nil {
-		b,_ := json.Marshal(err)
+		b, _ := json.Marshal(err)
 		wr.Write(b)
 		return
 	}
-	b,_ := json.Marshal(res)
+	b, _ := json.Marshal(res)
+	wr.Write(b)
+}
+
+func (h HttpH) PutById(wr http.ResponseWriter, r *http.Request) {
+	//mux.NewRouter()
+
+	Param := mux.Vars(r)
+
+	v := Param["id"]
+
+	id, _ := strconv.Atoi(v)
+
+	res, err := h.Srv.PutById(id)
+
+	if err != nil {
+		b, _ := json.Marshal(err)
+		wr.Write(b)
+		return
+	}
+	b, _ := json.Marshal(res)
 	wr.Write(b)
 }
