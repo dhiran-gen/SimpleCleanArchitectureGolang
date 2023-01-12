@@ -10,7 +10,10 @@ func New(s store.Fstore) servProd {
 	return servProd{s}
 }
 
-func (srv servProd) GetById(id int) (*store.Details,error){
+func (srv servProd) GetById(id int) (*store.Details, error) {
 	return srv.s.GetById(id)
 }
 
+func (srv servProd) PutById(id int) (*store.Details, error) {
+	return srv.s.PutById(id)
+}

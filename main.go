@@ -2,6 +2,8 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
+
 	//"fmt"
 	"log"
 
@@ -24,17 +26,20 @@ func main() {
 	if err != nil {
 		log.Print("error while opening mysql ")
 	}
-	
-	str := m.New(db) //okay?
-	srvs := pService.New(str) 
-	hdlr := pHandler.HttpH{srvs}
 
-	r:=mux.NewRouter()
+	str := m.New(db) //okay?
+	srvs := pService.New(str)
+	hdlr := pHandler.HttpH{Srv: srvs}
+
+	r := mux.NewRouter()
 	//r.HandleFunc("/",hdlr.GetById)
 
-	
 	r.HandleFunc("/user/{id}", hdlr.GetById).Methods(http.MethodGet)
+	r.HandleFunc("/user/{id}", hdlr.PutById).Methods(http.MethodPut)
+	// r.HandleFunc("/user/{id}", hdlr.GetById).Methods(http.MethodGet)
+	// r.HandleFunc("/user/{id}", hdlr.GetById).Methods(http.MethodGet)
 
-	err = http.ListenAndServe(":3000", r)
+	fmt.Println("Server starting at 8000")
+	err = http.ListenAndServe(":8000", r)
 	//println(err.Error())
 }
